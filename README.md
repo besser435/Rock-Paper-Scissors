@@ -1,9 +1,9 @@
 # Rock-Paper-Scissors
-Before I moved to GitHub I just had different files for the different versions. Those are in the Old folder
-The GUI folder was an attempt to make a GUI version, but I just don't know enough at this point to pull it off
-The short version is just the most simple form of this game, none of the extra features
+Before I moved to GitHub I just had different files for the different versions. Those are in the Old folder.
+The GUI folder was an attempt to make a GUI version, but I just don't know enough at this point to pull it off.
+The short version is just the most simple form of this game, none of the extra features.
 
-Right now the audio files won't work, as they are for the arcade version. They will work one PyGame is implimented
+Right now the audio files won't work, as they are for the arcade version. They will work one PyGame is implimented.
 
 TO DO LIST:
 Move music over to PyGame instead of winsound
