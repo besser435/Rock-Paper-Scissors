@@ -15,7 +15,6 @@ def notes(): # This is so long stuff like this can be collapsed in the IDE
 
     V1.8 should:
     add ability to enter a letter instead of the full word 
-    Investigate Astroid2 glitch
 
     add a way of replaying or going to menu when game ends
 
@@ -76,7 +75,7 @@ def Operation_Astroid2():
     else:
         random_astroid = random.randint(0, 12)                  # 1 in 13 chance (if the player rigs the game)
         if enable_asteroid == True and random_astroid == 0:
-            print("Game is rigged: " + str(enable_rig))         # I (Brandon) was diagnosed with autism and this has
+            print("Game is rigged: " + str(enable_rig))         # I was diagnosed with autism and this has
             time.sleep(0.5)                                     # more of it than I do somehow lmao
             print("is 12-25-27: True")                          # I know its inconsistant and innacurate, 
             time.sleep(1)                                       # but it just has to look interes- I mean this is real code
