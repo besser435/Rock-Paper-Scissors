@@ -1,34 +1,22 @@
 def notes(): # This is so long stuff like this can be collapsed in the IDE
     '''
-    RPS Game by Brandon Esser | Updated November 2021
-    It looks bad, we know.
-
-    Changes over 1.6:
-    If debug flags are enabled, there is a message that
-    tells the player what to roll in order to win. This means
-    comp_choice is moved above player input, but its not like
-    there is code to cheat off of that. (yet)
-
-    Operation Astroid 2 doesnt display if debug flags
-    are enabled true
+    RPS Game by Brandon Esser | Updated December 2021
+    It looks bad, I know.
 
 
-    V1.8 should:
-    add ability to enter a letter instead of the full word 
-
-    add a way of replaying or going to menu when game ends
-
-    Make an even more rigged version. Comp will always win
+    This will probably be the final version. It doesn't really
+    make sense to keep the Arcade version and this stand-alone
+    version updated. The Arcade is more advanced and has a better
+    framework, so I'll be sticking with that. 
     '''
 
-
-
+version = "v1.8"
 
 from colorama import init   # pip install colorama
 init()
 from colorama import Fore, Back, Style
 init(autoreset=True)
-import winsound         # broken, needs to be updated to PyGame. Thats done in IFT101 Project, just impliment it
+import winsound         # broken, needs to be updated to PyGame. Thats done:tm: in the IFT101 Arcade Project, just impliment it
 import random           # update it so it grabs music file from cwd. also in IFT project
 import time
 import sys
@@ -40,17 +28,11 @@ rollb = Fore.BLUE + "paper"
 rollc = Fore.RED + "scissors"
 
 
-
-# change all the colors to the betters ones
-print(Fore.LIGHTMAGENTA_EX + "Hello")   
-
-
-
 # options
-enable_debug_flags = 1  # its sad that this is even a thing
+enable_debug_flags = 0  # its sad that this is even a thing
 skip_rig_ask = 0        # disables rigging if this is enabled
 cls_after_turn = 0      # clears the terminal after each turn
-enable_music = 1        # no idea how to make it more quiet
+enable_music = 1        
 rickroll_professor = 0
 enable_asteroid = 1
 match_point = 3
@@ -59,13 +41,18 @@ match_point = 3
 # storage
 player_score = 0
 comp_score = 0
-enable_rig = 0          # this is reduntant since you can just read the input,
+enable_rig = 0
+enable_super_rig = 0    # this is reduntant since you can just read the input,
 player_history = []     # but this way you can do certain things with it
 comp_history = []
 
 
-print(Fore.BLUE + Back.YELLOW + "Rock Paper Scissors by Brandon | V1.7 | November 2021")
+print(Fore.BLUE + Back.YELLOW + "Rock Paper Scissors by Brandon | " + version + " | December 2021")
 print("First to " + str(match_point) + " points wins!")
+
+
+def cc():   # shortens long command to just cc()
+    os.system("cls" if os.name == "nt" else "clear")
 
 
 # Operation Astroid 2 is just a stupid easter egg. serves no purpose execpt to fuel my "creativity"
@@ -102,7 +89,9 @@ def Operation_Astroid2():
             # teaching sand to think was a mistake
 
 
-if enable_music == True:                # add to arcade game instead of just this
+# change to pygame code, maybe axe it
+
+"""if enable_music == True:                # add to arcade game instead of just this
     song_choice = random.randint(0, 2)  # Music by Epic Mountain, it doesnt fit the theme, but it works
     os.chdir(r'C:\arcadeMusic')           # no idea how else to play sounds. place rpsSounds folder here
     if song_choice == 0:
@@ -121,54 +110,82 @@ if enable_music == True:                # add to arcade game instead of just thi
         print("Song playing: Never Gonna Give You Up")
     # Never gonna let you down
 
+"""
 
-class match_fixing():
+class match_fixing:    
     # added this feature just to practice. in reality its useless and a waste of time
-    if skip_rig_ask == True:
-        if enable_debug_flags == True: print("                          skip_rig_ask = " + str(skip_rig_ask))
+    # enable_rig = computer leans towards rock
+    # enable_super_rig = computer always wins
+    global enable_rig
+    global enable_super_rig
 
-    else:
-        global enable_rig   # took me 20 minutes to figure out where this needed to go haha :sad:
-        ask_for_rig = input("would you like to rig the game? y/n ")
-        # Yes, I know the player can just guess paper and win if enabled
-        if ask_for_rig == "y":       
-            enable_rig = True
-            Operation_Astroid2()
-        else:
-            enable_rig = False
+    if skip_rig_ask == True:
+        if enable_debug_flags == 1: print(Fore.YELLOW + "                          skip_rig_ask = " + str(skip_rig_ask))
+    else:        
+        ask_for_rig = input("Would you like to rig the game? y/n ")
+
+        if ask_for_rig == "y":
+            ask_for_super_rig = input("Would you like to super rig the game? y/n ")
+
+            if "y" in ask_for_super_rig:
+                enable_super_rig = 1
+                print()
+                print("Game is rigged: " + str(enable_rig))
+                print("Game is super rigged: " + str(enable_super_rig))
+                Operation_Astroid2()
+            else: 
+                enable_rig = 1
+                print()
+                print("Game is rigged: " + str(enable_rig))
+                print("Game is super rigged: " + str(enable_super_rig))
+                Operation_Astroid2()
 
 
 def game():
-    if enable_debug_flags == True: print("Game is rigged: " + str(enable_rig))
     while True:
         print()
         print(Fore.CYAN + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-        if enable_debug_flags == True: print("Current directory: " + os.getcwd())   # music thing
+        if enable_debug_flags == True: print(Fore.YELLOW + "Current directory: " + os.getcwd())   # music thing
 
-        class rng():
-            if enable_rig == False: 
-                global comp_choice
-                p_comp_play = ["rock", "paper", "scissors"] 
-                comp_choice = random.choice(p_comp_play)
-                if enable_debug_flags == True: print("                      rng normal")
-                
-            elif enable_rig == True:
-                p_comp_play_rigged = ["rock", "rock", "rock", "paper", "scissors"] 
-                comp_choice = random.choice(p_comp_play_rigged)
-                if enable_debug_flags == True: print("                      rng rigged")
+        # had issues with scopes earlier
+        if enable_debug_flags == 1: print(Fore.YELLOW + "Game is rigged in def game(): " + str(enable_rig))
+        if enable_debug_flags == 1: print(Fore.YELLOW + "Game is super rigged in def game(): " + str(enable_super_rig))
+        
 
-
-            if enable_debug_flags == True:
-                print("                      comp_choice = " + comp_choice)
-                if comp_choice == "rock": print("                      Roll Paper")
-                if comp_choice == "paper": print("                      Roll Scissors")
-                if comp_choice == "scissors": print("                      Roll Rock")
-
+        class player_entry:
+            # User inputs their play here
+            print("Enter " + rolla + ", " + rollb + ", " + Fore.RESET + "or " + rollc)
 
             global player_input
             player_input = input()
             print()
 
+
+        class rng():
+            global comp_choice
+            if enable_rig == True:
+                p_comp_play_rigged = ["rock", "rock", "rock", "paper", "scissors"]
+                comp_choice = random.choice(p_comp_play_rigged)
+                if enable_debug_flags == 1: print(Fore.YELLOW + "                      rng rigged")
+
+            elif enable_super_rig == True:
+                if player_input == "rock":
+                    comp_choice = "paper"
+
+                elif player_input == "paper":
+                    comp_choice = "scissors"
+                
+                elif player_input == "scissors":
+                    comp_choice = "rock"
+                if enable_debug_flags == 1: print(Fore.YELLOW + "                      rng super rigged")
+
+            else:
+                p_comp_play = ["rock", "paper", "scissors"]
+                comp_choice = random.choice(p_comp_play)
+                if enable_debug_flags == 1: print(Fore.YELLOW + "                      rng normal")
+
+
+            # adds to player history
             if player_input == "rock":
                 print("You chose " + rolla)
                 player_history.append(rolla)
@@ -183,11 +200,32 @@ def game():
                 game()
 
     
+            # roll message thing
+            if enable_debug_flags == False: # skips this while debugging crap
+                print()
+                print(rolla)
+                time.sleep(0.3)
+                print(rollb)
+                time.sleep(0.3)
+                print(rollc)
+                time.sleep(0.3)
+                print("shoot!")
+                time.sleep(0.5)
+                print()
+
+
+            if comp_choice == "rock":
+                print("I chose " + rolla)
+            elif comp_choice == "paper":
+                print("I choose " + rollb)
+            elif comp_choice == "scissors":
+                print("I choose " + rollc)
+
+
         class normal_logic():
-            if enable_debug_flags == True: print("                      def main_logic")
+            if enable_debug_flags == 1: print(Fore.YELLOW + "                      def normal_logic")
             global comp_score   
             global player_score
-
 
             # outcome logic for player chooing rock
             if player_input == "rock" and comp_choice == "paper":
@@ -231,12 +269,12 @@ def game():
                 print("The computer has: " + str(comp_score) + " points")
         
 
-        class hist_comp():
-            if enable_debug_flags == True: print("                      def hist_comp")
+        class history:
             print("Player play history: ", end="")
             print(*player_history, sep = ", ")
+
             print("Computer play history: ", end="")    # this wont tell you much, its 100% random (until its not)
-            
+
             if comp_choice == "rock":
                 comp_history.append(rolla)
             elif comp_choice == "paper":
@@ -245,14 +283,6 @@ def game():
                 comp_history.append(rollc)
 
             print(*comp_history, sep = ", ")
-    
-
-        def menu():
-            print()
-            print("Would you like to:")
-            print("1: Play again")
-            print("2: Return to menu")
-            print("3: Quit the program")
 
 
         def game_reset():   
@@ -260,12 +290,18 @@ def game():
             global comp_score
             global player_history
             global comp_history
-
+            # could probably be done better
             player_score = 0
             comp_score = 0
             comp_history.clear()
-            player_history.clear()
-            game()
+            player_history.clear()  
+
+
+        def menu():
+            print()
+            print("Would you like to:")
+            print("1: Play again")
+            print("2: Quit the program")
 
 
         class scores():
@@ -277,9 +313,6 @@ def game():
                 ask_menu = input()
                 if "1" in ask_menu:
                     game_reset()                                               
-                elif "2" in ask_menu:
-                    os.system("cls" if os.name == "nt" else "clear")     # IFT Project specific code. Returns to main menu in arcade game
-                    #main_menu()                                          # comment this out if needed. 
                 else:
                     print("Goodbye")
                     time.sleep(1)
@@ -293,10 +326,7 @@ def game():
                 menu()
                 ask_menu = input()
                 if "1" in ask_menu:
-                    game_reset()                                                  
-                elif "2" in ask_menu:
-                    os.system("cls" if os.name == "nt" else "clear")     # IFT Project specific code. Returns to main menu in arcade game
-                    #main_menu()                                          # comment this out if needed. 
+                    game_reset()                                                 
                 else:
                     print("Goodbye")
                     time.sleep(1)
@@ -306,7 +336,7 @@ def game():
         if cls_after_turn == True:
             print()
             input("Press enter to continue ")
-            os.system("cls" if os.name == "nt" else "clear")
+            cc()
 
 
 game()
