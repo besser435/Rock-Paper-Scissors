@@ -5,5 +5,5 @@ The short version is just the most simple form of this game, none of the extra f
 
 
 This will probably be the final version. It doesn't really make sense to keep the Arcade version and this stand-alone version updated.
-The Arcade is more advanced and has a better framework, so I'll be sticking with that. 
+The Arcade is more advanced and has a better framework, so I'll be sticking with that. I might add a feature or two, they will just be pushed in the Arcade project.
 This does have a special place in my cold heart though, as I learned a lot from this project. and it is what really got me into Python.
